@@ -9,8 +9,8 @@ The website is hosted here: [rural.tech](https://rural.tech)
 
 Add badges from somewhere like: [shields.io](https://shields.io/)
 
-[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
-[![Twitter](https://twitter.com/bobrossrtx)](https://img.shields.io/twitter/follow/bobrossrtx?style=social)
+[![APACHE License](https://img.shields.io/github/license/bobrossrtx/rural)](https://choosealicense.com/licenses/apache-2.0/)
+[![Twitter](https://img.shields.io/twitter/follow/bobrossrtx?style=social)](https://twitter.com/bobrossrtx)
 
 
 <!-- ## API Reference
