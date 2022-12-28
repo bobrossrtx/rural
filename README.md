@@ -1,17 +1,12 @@
 
 # Rural
 
-Rural is a web application that allows users to create short urls for their long urls. It is built using the Rust programming language and the Actix web framework. It uses a PostgreSQL database to store the urls and their corresponding short urls.
-
-The website is hosted here: [rural.tech](https://rural.tech)
-
-## Badges
-
-Add badges from somewhere like: [shields.io](https://shields.io/)
-
 [![APACHE License](https://img.shields.io/github/license/bobrossrtx/rural)](https://choosealicense.com/licenses/apache-2.0/)
 [![Twitter](https://img.shields.io/twitter/follow/bobrossrtx?style=social)](https://twitter.com/bobrossrtx)
 
+Rural is a web application that allows users to create short urls for their long urls. It is built using the Rust programming language and the Actix web framework. It uses a PostgreSQL database to store the urls and their corresponding short urls.
+
+The website is hosted here: [rural.tech](https://rural.tech)
 
 <!-- ## API Reference
 
