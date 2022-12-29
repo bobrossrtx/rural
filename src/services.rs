@@ -4,6 +4,8 @@ use actix_web::{
     Responder, HttpResponse
 };
 
+use actix_web_lab::web as web_lab;
+
 use rand::{thread_rng, Rng};
 use serde::{Deserialize, Serialize};
 use sqlx::{self, FromRow};
@@ -46,17 +48,31 @@ pub async fn fetch_url_by_id(state: Data<AppState>, url_id: Path<i32>) -> impl R
     }
 }
 
-// Create table
-#[post("/api/create-table")]
-pub async fn create_short_url_table(state: Data<AppState>) -> impl Responder {
-    match sqlx::query("CREATE TABLE IF NOT EXISTS urls (id SERIAL PRIMARY KEY, short_url VARCHAR(255) NOT NULL, url VARCHAR(255) NOT NULL)")
-        .execute(&state.db)
+// Redirect short url to end url
+#[get("/{short_url}")]
+pub async fn redirect_url(state: Data<AppState>, short_url: Path<String>) -> impl Responder {
+    let short_url_friendly = format!("/{short_url}");
+    match sqlx::query_as::<_, Url>("SELECT * from urls where short_url = $1")
+        .bind(short_url.to_string())
+        .fetch_one(&state.db)
         .await
     {
-        Ok(_) => HttpResponse::Ok().json("Table created"),
-        Err(_) => HttpResponse::InternalServerError().json("Failed to create table"),
+        Ok(url) => web_lab::Redirect::new(short_url_friendly, url.url.to_string()),
+        Err(_) => web_lab::Redirect::new(short_url_friendly, "/urls/-1"),
     }
 }
+
+// // Create table
+// #[post("/api/create-table")]
+// pub async fn create_short_url_table(state: Data<AppState>) -> impl Responder {
+//     match sqlx::query("CREATE TABLE IF NOT EXISTS urls (id SERIAL PRIMARY KEY, short_url VARCHAR(255) NOT NULL, url VARCHAR(255) NOT NULL)")
+//         .execute(&state.db)
+//         .await
+//     {
+//         Ok(_) => HttpResponse::Ok().json("Table created"),
+//         Err(_) => HttpResponse::InternalServerError().json("Failed to create table"),
+//     }
+// }
 
 // Create short url
 #[post("/api/urls")]
@@ -83,28 +99,28 @@ pub async fn create_short_url(state: Data<AppState>, body: Json<CreateShortUrl>)
     }
 }
 
-// Delete url
-#[delete("/api/urls/{url_id}")]
-pub async fn delete_url(state: Data<AppState>, url_id: Path<i32>) -> impl Responder {
-    match sqlx::query("DELETE FROM urls WHERE id = $1")
-        .bind(url_id.into_inner())
-        .execute(&state.db)
-        .await
-    {
-        Ok(_) => HttpResponse::Ok().json("Url deleted"),
-        Err(_) => HttpResponse::InternalServerError().json("Failed to delete url"),
-    }
-}
-
-// Delete all urls
-#[delete("/api/urls")]
-pub async fn delete_all_urls(state: Data<AppState>) -> impl Responder {
-    match sqlx::query("DELETE FROM urls")
-        .execute(&state.db)
-        .await
-    {
-        Ok(_) => HttpResponse::Ok().json("All urls deleted"),
-        Err(_) => HttpResponse::InternalServerError().json("Failed to delete all urls"),
-    }
-}
+// // Delete url
+// #[delete("/api/urls/{url_id}")]
+// pub async fn delete_url(state: Data<AppState>, url_id: Path<i32>) -> impl Responder {
+//     match sqlx::query("DELETE FROM urls WHERE id = $1")
+//         .bind(url_id.into_inner())
+//         .execute(&state.db)
+//         .await
+//     {
+//         Ok(_) => HttpResponse::Ok().json("Url deleted"),
+//         Err(_) => HttpResponse::InternalServerError().json("Failed to delete url"),
+//     }
+// }
+// 
+// // Delete all urls
+// #[delete("/api/urls")]
+// pub async fn delete_all_urls(state: Data<AppState>) -> impl Responder {
+//     match sqlx::query("DELETE FROM urls")
+//         .execute(&state.db)
+//         .await
+//     {
+//         Ok(_) => HttpResponse::Ok().json("All urls deleted"),
+//         Err(_) => HttpResponse::InternalServerError().json("Failed to delete all urls"),
+//     }
+// }
 

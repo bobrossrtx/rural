@@ -10,6 +10,7 @@ use services::{
     create_short_url_table,
     delete_all_urls,
     delete_url,
+    redirect_url
 };
 
 pub struct AppState {
@@ -41,6 +42,7 @@ async fn main() -> std::io::Result<()> {
             .service(create_short_url_table)
             .service(delete_all_urls)
             .service(delete_url)
+            .service(redirect_url)
     })
     .bind(("127.0.0.1", 8080))?
     .run()
