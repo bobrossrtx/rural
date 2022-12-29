@@ -7,9 +7,9 @@ use services::{
     create_short_url,
     fetch_urls,
     fetch_url_by_id,
-    create_short_url_table,
-    delete_all_urls,
-    delete_url,
+    // create_short_url_table,
+    // delete_all_urls,
+    // delete_url,
     redirect_url
 };
 
@@ -39,9 +39,9 @@ async fn main() -> std::io::Result<()> {
             .service(fetch_urls)
             .service(fetch_url_by_id)
             .service(create_short_url)
-            .service(create_short_url_table)
-            .service(delete_all_urls)
-            .service(delete_url)
+            // .service(create_short_url_table)
+            // .service(delete_all_urls)
+            // .service(delete_url)
             .service(redirect_url)
     })
     .bind(("127.0.0.1", 8080))?

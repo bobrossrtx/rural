@@ -1,5 +1,5 @@
 use actix_web::{
-    get, post, delete,
+    get, post, // delete,
     web::{Data, Json, Path},
     Responder, HttpResponse
 };
